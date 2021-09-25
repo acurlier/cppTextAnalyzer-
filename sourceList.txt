@@ -1,0 +1,5 @@
+Pride and Prejudice;Jane Austen;https://www.gutenberg.org/files/1342/1342-0.txt
+Frankenstein or, The Modern Prometheus;Mary Wollstonecraft (Godwin) Shelley;https://www.gutenberg.org/files/84/84-0.txt
+Alice’s Adventures in Wonderland;Lewis Carroll;https://www.gutenberg.org/files/11/11-0.txt
+Beowulf, An Anglo-Saxon Epic Poem;Hall, J. Lesslie (John Lesslie);https://www.gutenberg.org/files/16328/16328-0.txt
+The Scarlet Letter;Nathaniel Hawthorne;https://www.gutenberg.org/files/25344/25344-0.txt
