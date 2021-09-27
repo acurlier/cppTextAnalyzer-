@@ -33,6 +33,5 @@
 *.app
 
 # project repertories
-bin
-data
-.idea
+venv
+build

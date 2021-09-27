@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Utility.h"
+#include "Utility.hpp"
 
 void Utility::printFrame(std::vector<std::vector<std::string>> &matrixToPrint) {
     int lineIndex = 0;

@@ -7,9 +7,7 @@
 #include <fstream>
 #include <bits/stdc++.h>
 
-
-#include "LocalTxtListRetriever.h"
-#include "Utility.h"
+#include "LocalTxtListRetriever.hpp"
 
 
 LocalTxtListRetriever::LocalTxtListRetriever(std::string &fileRef): m_txtListAddress(fileRef)
@@ -21,7 +19,6 @@ std::vector<std::vector<std::string>> LocalTxtListRetriever::LocalTxtListRetriev
     return structTextList;
 
 };
-
 
 void LocalTxtListRetriever::returnTextAddress(const int &txtID) {
 };

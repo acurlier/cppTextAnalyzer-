@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/augustin/Documents/code/cppBinarySearchTree/LocalTxtListRetriever.hpp
+iostream
+-
+vector
+-
+
+/home/augustin/Documents/code/cppBinarySearchTree/Utility.hpp
+iostream
+-
+vector
+-
+
+/home/augustin/Documents/code/cppBinarySearchTree/main.cpp
+iostream
+-
+limits
+-
+LocalTxtListRetriever.hpp
+/home/augustin/Documents/code/cppBinarySearchTree/LocalTxtListRetriever.hpp
+Utility.hpp
+/home/augustin/Documents/code/cppBinarySearchTree/Utility.hpp
+
