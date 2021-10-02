@@ -1,5 +1,6 @@
- [requires]
- cpr/1.6.2
+[requires]
+cpr/1.6.2
+glog/0.5.0
 
- [generators]
- cmake
+[generators]
+cmake

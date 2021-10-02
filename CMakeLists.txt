@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(cppBinarySearchTree VERSION 0.1.0)
 
+
 include(CTest)
 enable_testing()
 
@@ -12,7 +13,8 @@ add_definitions("-std=c++11")
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-set(SOURCES main.cpp LocalTxtListRetriever.cpp TxtSourceRetriever.cpp Utility.cpp)
+file(GLOB SOURCES src/*.cpp)
+
 add_executable(myApp ${SOURCES})
 target_link_libraries(myApp ${CONAN_LIBS})
 include(CPack)
