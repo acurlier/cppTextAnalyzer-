@@ -11,22 +11,16 @@
 #include "BstClientBuilder.hpp"
 #include "Utility.hpp"
 
+
 int main(int argc, char *argv[]) {
 
+std::setlocale(LC_ALL, "en_US.utf8");
 
 /*std::string sampleString("If a man has reported to you, that a certain person speaks ill of you, "
 "do not make any defense to what has been told you: but reply, The man did not "
 "know the rest of my faults, for he would not have "
-"mentioned these only. - Epictetus");\
-*/
+"mentioned these only. - Epictetus");*/
 
-std::string sampleString("rise and rise again, until lambs become lions");
-
-BstClientBuilder myClient(sampleString);
-myClient.buildTree();
-
-
-/*
     // Initialize Google’s logging library.
     google::InitGoogleLogging(argv[0]);
 
@@ -58,7 +52,9 @@ myClient.buildTree();
     }
     std::string retrievedSource = mySourceRetriever.returnRetrievedSource();
     //std::cout << retrievedSource;
+    
+    BstClientBuilder myClient(retrievedSource);
+    myClient.buildTree();
 
-    */
     return 0;
 }

@@ -7,10 +7,11 @@
 class BstBuilder
 {
 public:
-BstBuilder(BstNode* root);
 void put(std::string key);
+void setRoot(BstNode* root);
 BstNode* get();
 void displayContent();
+
 
 private:
 BstNode* m_root;
