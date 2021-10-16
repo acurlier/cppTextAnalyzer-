@@ -34,19 +34,23 @@ void BstClientBuilder::buildTree() {
         }
     };
     
-    std::cout << "Tree built!";
+    // std::cout << "Tree built!" << std::endl;
     myBstBuilder.displayContent();
 };
 
 void BstClientBuilder::cleanWord(std::string &myString) {
 
-    myString[0] = std::tolower(myString[0]); // remove Uppercase
-
-    if (std::regex_match(myString,std::regex("(.*)([,.;-?!]\")"))) { // remove punctuation at the end of the words
-        //std:: cout << "matched :"<< myString << "\n";
-        myString.pop_back();
+    for (char letter:myString) { // remove Uppercase
+        if (std::isupper(letter)) break;
+        // myString[0] = std::tolower(myString[0]); 
+        // std::tolower(letter);
     }
 
-    // std::transform(myString.begin(), myString.end(), myString.begin(),
-    //     [](unsigned char c){ return std::tolower(c); });
+    if (std::regex_match(myString,std::regex("([.;,!?:_\"“”—-]+.*)|(.*)[.;,!?:_\"“”—-]+"))) {
+
+        std::regex punct("[.;,!?:_\"“”—-]+");
+        std::stringstream result;
+        std::regex_replace(std::ostream_iterator<char>(result), myString.begin(), myString.end(), punct, "");
+        myString = result.str();
+    }
 };
