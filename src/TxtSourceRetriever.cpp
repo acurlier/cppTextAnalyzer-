@@ -1,43 +1,23 @@
-//
-// Created by augustin on 24/09/2021.
-//
 #include <iostream>
 #include <vector>
-
 #include <cpr/cpr.h>
 #include "TxtSourceRetriever.hpp"
 
-TxtSourceRetriever::TxtSourceRetriever(const std::vector<std::vector<std::string>> &txtList) :
-        m_txtList(txtList), m_userSelection(0) {}
+TxtSourceRetriever::TxtSourceRetriever(const std::string webAddress) :
+        m_address(webAddress) {
+        }
 
-bool TxtSourceRetriever::setUserSelection(const int &userSelection)
-{
-    m_userSelection = userSelection;
-    return TxtSourceRetriever::checkUserChoiceValidity(userSelection);
-};
-
-std::string TxtSourceRetriever::returnTextName()
-{
-    return m_txtList[m_userSelection - 1][0];
-};
 
 std::string TxtSourceRetriever::returnRetrievedSource() {
-    std::string address = TxtSourceRetriever::extractTextAddress();
-    std::string source = downloadSource(address);
+    std::string source = downloadSource();
     return source;
 };
 
-bool TxtSourceRetriever::checkUserChoiceValidity(int const &userSelection) {
-    return ((userSelection != 0) && (userSelection <= m_txtList.size()));
-};
-
-std::string TxtSourceRetriever::downloadSource(const std::string &address) {
-    cpr::Response r = cpr::Get(cpr::Url{address});
-    std::cout << r.status_code << std::endl;
-    std::cout << r.header["content-type"]<< std::endl;       // application/json; charset=utf-8
+std::string TxtSourceRetriever::downloadSource() {
+    std::cout << "Fetch address : " << m_address <<  std::endl;
+    cpr::Response r = cpr::Get(cpr::Url{m_address});
+    std::cout << "status_code: " << r.status_code << std::endl;
+    std::cout << "content-type: " << r.header["content-type"]<< std::endl;       // application/json; charset=utf-8
     return r.text;                         // JSON text string
 };
 
-std::string TxtSourceRetriever::extractTextAddress() {
-    return m_txtList[m_userSelection - 1][2];
-};

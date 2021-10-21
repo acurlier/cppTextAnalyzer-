@@ -9,14 +9,15 @@
 #include "BstBuilder.hpp"
 #include "BstClientBuilder.hpp"
 
+/*
+this object is used as a client to use the BSTBuilder API, it sweep through the text and put the keys in the BST
+it is also used to save the resulting sorted table for later use.
+*/
 BstClientBuilder::BstClientBuilder(std::string const &inputText): m_inputText(inputText) 
-{
-    //std::regex m_regexPonctuatedWords(".*[,;.]");
-    std::regex m_regexPonctuatedWords("([a-z]*)");
-    }
+{ }
 
-void BstClientBuilder::buildTree() {
- 
+void BstClientBuilder::buildTree(const std::string &fileName) {
+    std::cout << "Start building tree ...";
     std::istringstream iss(m_inputText);
     std::string subs;
     
@@ -34,23 +35,25 @@ void BstClientBuilder::buildTree() {
         }
     };
     
-    // std::cout << "Tree built!" << std::endl;
-    myBstBuilder.displayContent();
+    std::cout << "Tree built!" << std::endl;
+    myBstBuilder.saveContent(fileName);
 };
 
 void BstClientBuilder::cleanWord(std::string &myString) {
 
-    for (char letter:myString) { // remove Uppercase
-        if (std::isupper(letter)) break;
-        // myString[0] = std::tolower(myString[0]); 
-        // std::tolower(letter);
+    for (int i=0; i<myString.length(); i++) { // remove Uppercase, some words are written entirerly in uppercase
+        if (std::islower(myString[i])) { // if we reach the lowercase part of the word we stop
+            break; 
+        } else if (std::isalpha(myString[i])) { // TODO: I trust tolower() will mess up with non alpha characters
+            myString[i] = std::tolower(myString[i]);
+        }
     }
 
-    if (std::regex_match(myString,std::regex("([.;,!?:_\"“”—-]+.*)|(.*)[.;,!?:_\"“”—-]+"))) {
+    if (std::regex_match(myString,std::regex("([.;,!?:_\"“”—-]+.*)|(.*)[.;,!?:_\"“”—-]+"))) { // lets detect words with punctuation marks stuck either before or after
 
         std::regex punct("[.;,!?:_\"“”—-]+");
         std::stringstream result;
-        std::regex_replace(std::ostream_iterator<char>(result), myString.begin(), myString.end(), punct, "");
+        std::regex_replace(std::ostream_iterator<char>(result), myString.begin(), myString.end(), punct, ""); // we remove punctuation marks stuck either before or after the word
         myString = result.str();
     }
 };

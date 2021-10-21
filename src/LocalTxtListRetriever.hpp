@@ -10,9 +10,11 @@ class LocalTxtListRetriever {
 public:
     LocalTxtListRetriever(std::string &fileRef);
     std::vector<std::vector<std::string>> returnAvailableTxtList();
-    void returnTextAddress(const int &txtID);
+    
 private:
     std::vector<std::vector<std::string>> returnTxtListFileContent();
     std::vector<std::vector<std::string>> m_unwrappedTxtList;
     std::string &m_txtListAddress;
+    std::string m_txtList;
+    int m_userSelection;
 };

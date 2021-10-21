@@ -1,29 +1,16 @@
-//
-// Created by augustin on 24/09/2021.
-//
-
-#ifndef CPPBINARYSEARCHTREE_TXTSOURCERETRIEVER_H
-#define CPPBINARYSEARCHTREE_TXTSOURCERETRIEVER_H
+#pragma once
 
 #include <iostream>
 #include <vector>
 
 class TxtSourceRetriever {
 public:
-    TxtSourceRetriever(const std::vector<std::vector<std::string>> &txtList);
-    bool setUserSelection(const int &userSelection);
-    std::string returnTextName();
+    TxtSourceRetriever(const std::string webAddress);
     std::string returnRetrievedSource();
 
 
 private:
-    bool checkUserChoiceValidity(int const &userSelection);
-    std::string downloadSource(const std::string &address);
-    std::string extractTextAddress();
-    int m_userSelection;
-    const std::vector<std::vector<std::string>> &m_txtList;
+    std::string downloadSource();
     std::string txtContent;
+    const std::string m_address;
 };
-
-
-#endif //CPPBINARYSEARCHTREE_TXTSOURCERETRIEVER_H

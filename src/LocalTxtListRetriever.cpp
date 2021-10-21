@@ -10,21 +10,21 @@
 #include "LocalTxtListRetriever.hpp"
 
 
-LocalTxtListRetriever::LocalTxtListRetriever(std::string &fileRef): m_txtListAddress(fileRef)
+LocalTxtListRetriever::LocalTxtListRetriever(std::string &fileRef): m_txtListAddress(fileRef), m_txtList("") 
 {
 }
 
-std::vector<std::vector<std::string>> LocalTxtListRetriever::LocalTxtListRetriever::returnAvailableTxtList() {
+std::vector<std::vector<std::string>> LocalTxtListRetriever::returnAvailableTxtList() {
+    // public method to return the formated text list (for display into the console)
     std::vector<std::vector<std::string>> structTextList = returnTxtListFileContent();
     return structTextList;
 
 };
 
-void LocalTxtListRetriever::returnTextAddress(const int &txtID) {
-};
-
 std::vector<std::vector<std::string>> LocalTxtListRetriever::returnTxtListFileContent() //open the designated file and get the content as a string, then return it
 {
+    // parse the content of the text source file
+
     std::ifstream ifs(m_txtListAddress); // read the content of the file as a stream
 
 
@@ -51,4 +51,6 @@ std::vector<std::vector<std::string>> LocalTxtListRetriever::returnTxtListFileCo
 
     return AllFileTokens;
 };
+
+
 
