@@ -34,7 +34,8 @@ void BstBuilder::inOrder(BstNode* targetNode, std::ofstream &ouputStream) { // t
         if(targetNode == nullptr) return; // if we reach the bottom of the tree, we stop the recursive call
         
         inOrder(targetNode->getLeftNode(), ouputStream);
-        ouputStream << targetNode->getKey() << "\t" << targetNode->getValue() << std::endl;
+        std::string tempKey(targetNode->getKey());
+        if (isalpha(tempKey[0])){ouputStream << targetNode->getKey() << "\t" << targetNode->getValue() << std::endl;} // add the tree element to the file only of it starts with a letter
         
         inOrder(targetNode->getRightNode(), ouputStream);
         
