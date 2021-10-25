@@ -16,17 +16,17 @@ There are 3 modes for this program
 This mode allows you to select a specific text to process from a list (sourceList.txt), 
 it will ask you what you want to display during the course of the program,
 will save the results and terminate. You can launch this mode with:
-`bstIndexing -p --manual`
+`bstIndexing -p --i`
 2. An automatic processing mode:\
 This mode will sequentially select the elements from sourceList.txt, run the proper processing, will save the results
 and terminate. You can launch this mode with:
-`bstIndexing -p --manual`
+`bstIndexing -p --a`
 
 3. An interactive exploration mode: this will allow you to "load" the results of a previous indexing sequence and
    1. get metrics about this text.
    2. look for a specific term in the text, get the number of occurrences anf being proposed to display these occurrences in their context.
    
-   Of course you will first need to process at least one text before being able to use this mode.\
+Of course you will first need to process at least one text before being able to use this mode.\
 You can access this mode by typing: `bstIndexing -u`
    
 ## Project status

@@ -4,3 +4,6 @@
 #python venv
 /venv
 
+# text processing output files
+*.stxt
+*.tree
