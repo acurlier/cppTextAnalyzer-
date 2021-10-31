@@ -10,13 +10,14 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 
 # set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
 
-add_definitions("-std=c++17")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 file(GLOB SOURCES src/*.cpp)
 
-add_executable(myApp ${SOURCES})
-target_link_libraries(myApp ${CONAN_LIBS})
+add_executable(bstIndexing ${SOURCES})
+target_link_libraries(bstIndexing ${CONAN_LIBS})
 include(CPack)

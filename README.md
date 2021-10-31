@@ -1,14 +1,21 @@
-# cppBinarySearchTree
-## Description
-This project aims at to implement the BST (binary search tree) ADT in order to allow the user to look for specific
-elements in large chunk of text, get "usefull" metrics and look for some specific occurrences of words in the text
+# cppTextAnalyzer
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## Description
+This project aims to allow the user to:
+- Download texts thanks to a list of available references contained in a text file
+- Analyze them automatically and save the output of the analysis
+- Get access to useful metrics.
+
+A sample of texts that can be processed is provided in /ressources/sourceList.txt.\
+In this sample, all references are hosted on https://www.gutenberg.org/ ; however you can add any other reference, provided that you follow the formating style of this sample file.
 
 ## Installation
 1. Download the sources using git clone.
-2. Compile the sources using the makefile
+2. CD to the directory containing the source files, and create the build directory using 'mkdir build'
+3. Build the projet using the makefile 'cmake --build'
+4. Move the file sourceList.txt from the "resource" directory to the binary directory
+
+Note that this program leverage filesystem functionalities featured by C++17
 
 ## Usage
 There are 3 modes for this program
@@ -30,5 +37,5 @@ Of course you will first need to process at least one text before being able to 
 You can access this mode by typing: `bstIndexing -u`
    
 ## Project status
-on dev
+Completed - might be reopened later to add extra features
 

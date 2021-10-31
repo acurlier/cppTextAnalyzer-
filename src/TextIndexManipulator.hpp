@@ -7,13 +7,13 @@
 #include <map>
 #include <queue>
 
-typedef std::pair <std::string,std::vector<int>> mapEntries;
+typedef std::pair<std::pair<std::string,int>,int> entry;
+typedef std::vector<entry> textTree;
 struct returnMetrics
 {
-    std::queue<mapEntries> highWordCount;
-    std::queue<mapEntries> lowWordCount;
-    mapEntries mostFreqSingle;
-    mapEntries mostFreqMultiple;
+    std::queue<entry> highWordCount;
+    std::queue<entry> lowWordCount;
+    entry mostFreq;
 };
 typedef std::pair <size_t,returnMetrics> concatMetrics;
 
@@ -22,21 +22,19 @@ class TextIndexManipulator
 
 private:
 std::string m_text;
-std::string m_title;
-std::string m_author;
-std::vector<std::string> m_availableFiles;
-std::map<std::string,std::vector<int>> m_treeMap; // store the word instances, their nb of occurence and their number of character
+int m_wordCount;
+textTree m_treeVect; // store the word instances, their nb of occurence and their number of character
 
-returnMetrics moreThanLessThan(int occurencesMin,int occurencesMax);
+returnMetrics generateMetrics(const int &topListLength, const int &occurenceMatch);
 
 void getText(const std::string &fileName); // get xxx_text file and load text and basic info in memory
-void generateIndex(const std::string &fileName); // get xxx_tree file and load the symbol table in memory
-std::pair<size_t, returnMetrics> returnTxtMetrics();
+void generateIndex(const std::string &fileName, const int & lengthMin,  const int & minOccurence); // get xxx_tree file and load the symbol table in memory
+std::pair<size_t, returnMetrics> returnTxtMetrics(const int & topListLength, const int &occurenceMatch);
 // std::string returnWordContext(const std::string search);
 
 public:
 std::vector<std::string> discoverAvailableFiles();
-concatMetrics displayMetrics(const std::string &selectedFile);
+concatMetrics displayMetrics(const std::string &selectedFile, const int &topListLength, const int & lengthMin,  const int & minOccurence);
 // void displayWordContext(); ... maybe later
 
 };
