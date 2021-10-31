@@ -29,9 +29,9 @@ On Linux:
    1. Go to /build and run CMake to configure the project and generate a native build system with `cmake ..`
    1. Call the build system using `cmake --build .`
 
-* Move the file sourceList.txt from the "resource" directory to the binary directory so that it can be loaded by the program
+* Move the file sourceList.txt from /resources to /build/bin so that it can be loaded by the program
 
-* Run the program using the CLI described in the next section
+* Run the program using the CLI described in the next section.
 
 **NOTE**: This program leverage filesystem functionalities featured by C++17
 

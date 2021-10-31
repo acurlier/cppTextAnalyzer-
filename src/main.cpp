@@ -23,9 +23,9 @@ int main(int argc, char *argv[]) {
 // std::setlocale(LC_ALL, "en_US.utf8");
 // Initialize Google’s logging library.
 google::InitGoogleLogging(argv[0]);
-    
+if(argc == 1) {printHelp();}    
 // go into indexing mode
-if (strcmp(argv[1], "-p") == 0) {
+else if (strcmp(argv[1], "-p") == 0) {
 
     std::string listAddress("sourceList.txt");
     std::string txtListAddress(listAddress); // 
@@ -57,39 +57,42 @@ if (strcmp(argv[1], "-p") == 0) {
     // go into interactive indexing mode
     } else if (strcmp(argv[2],"--i")==0)  {
 
-        Utility::printFrame(structTextList);
+        if (structTextList.size() == 0) {std::cout << "*FATAL ERROR* Unable to open sourceFile.txt or load its content ... did you move it from /resources to /build/bin ?" << std::endl; exit;} else {
 
-        LOG(INFO) << "[main] Sucessfully located and loaded the local source file";
+            Utility::printFrame(structTextList);
 
-        TxtSelectionInteractor myInteractor(structTextList);
-        bool valTest = false;
-        int userSelection;
+            LOG(INFO) << "[main] Sucessfully located and loaded the local source file";
 
-        std::string textName("");
+            TxtSelectionInteractor myInteractor(structTextList);
+            bool valTest = false;
+            int userSelection;
 
-        while (!valTest) { //iterate as long as the user doesn't provide a correct input
-            std::cout << "*** Please indicate your selection (enter desired book index in the console) ***\n" ;
-            std::cin >> userSelection;
-            std::cout << '\n';
-            valTest = myInteractor.setUserSelection(userSelection);
-            if (!valTest) {
-                std::cout << "! Incorrect input, please try again !\n";
-            } else {
-                textName = myInteractor.returnTextName();
-                std::string returnNamed(textName);
-                std::cout << "You have selected: " << returnNamed << std::endl;
-                LOG(INFO) << "[main] Text " << returnNamed << " selected by user from the list";
+            std::string textName("");
+
+            while (!valTest) { //iterate as long as the user doesn't provide a correct input
+                std::cout << "*** Please indicate your selection (enter desired book index in the console) ***\n" ;
+                std::cin >> userSelection;
+                std::cout << '\n';
+                valTest = myInteractor.setUserSelection(userSelection);
+                if (!valTest) {
+                    std::cout << "! Incorrect input, please try again !\n";
+                } else {
+                    textName = myInteractor.returnTextName();
+                    std::string returnNamed(textName);
+                    std::cout << "You have selected: " << returnNamed << std::endl;
+                    LOG(INFO) << "[main] Text " << returnNamed << " selected by user from the list";
+                }
             }
+
+            TxtSourceRetriever mySourceRetriever(myInteractor.returnTextAddress());
+            std::string retrievedSource = mySourceRetriever.returnRetrievedSource();
+
+            BstClientBuilder myClient(retrievedSource);
+            std::string saveTreeFileName(textName + ".tree");
+            std::string saveTextFileName(textName + ".stxt");
+            myClient.buildTree(saveTreeFileName);
+            mySourceRetriever.saveText(saveTextFileName);
         }
-
-        TxtSourceRetriever mySourceRetriever(myInteractor.returnTextAddress());
-        std::string retrievedSource = mySourceRetriever.returnRetrievedSource();
-
-        BstClientBuilder myClient(retrievedSource);
-        std::string saveTreeFileName(textName + ".tree");
-        std::string saveTextFileName(textName + ".stxt");
-        myClient.buildTree(saveTreeFileName);
-        mySourceRetriever.saveText(saveTextFileName);
 
         // print help
         } else {
@@ -99,62 +102,69 @@ if (strcmp(argv[1], "-p") == 0) {
     } else if (strcmp(argv[1],"-u")==0) {
 
         TextIndexManipulator myManipulator;
-        std::cout << "*** Processed files discovered: ***\n" ;
         int index=0;
         std::vector<std::string> discoveredFile(myManipulator.discoverAvailableFiles());
-        for (const std::string &files : discoveredFile)
-        {
-            index++;
-            std::cout << index << " - " << files << std::endl;
-        };
-
-        std::cout << "Please enter the index of the file you wish to process: ";
-        int answer(-1);
-        bool validAnswer(false);
-        while (!validAnswer){
-            std::cin >> answer; std::cin.ignore();
-            if ((int) answer >0 && (int) answer <=index) {validAnswer=true;}
-        }
         
-        std::string selection = discoveredFile[answer-1];
-        int topLength(10); // length of the top lists of most / least used words
-        int lengthMin(6); // minimum size of words to considered
-        int minOccur(5); // minimum number of occurences to be considered
-        concatMetrics selectedTxtMetrics(myManipulator.displayMetrics(selection, topLength, lengthMin,minOccur));
-        prettyPrint(selection, selectedTxtMetrics, topLength, lengthMin, minOccur);
+        if (discoveredFile.size() == 0) 
+        {std::cerr << "*FATAL ERROR* There is no input files (.tree) in the /bin directory, please run bstIndexing -p -- i first" << std::endl; exit;} 
+        else {
+
+            for (const std::string &files : discoveredFile)
+            {
+                std::cout << "*** Processed files discovered: ***\n" ;
+                index++;
+                std::cout << index << " - " << files << std::endl;
+            };
+
+            std::cout << "Please enter the index of the file you wish to process: ";
+            int answer(-1);
+            bool validAnswer(false);
+            while (!validAnswer){
+                std::cin >> answer; std::cin.ignore();
+                if ((int) answer >0 && (int) answer <=index) {validAnswer=true;}
+            }
+            
+            std::string selection = discoveredFile[answer-1];
+            int topLength(10); // length of the top lists of most / least used words
+            int lengthMin(6); // minimum size of words to considered
+            int minOccur(5); // minimum number of occurences to be considered
+            concatMetrics selectedTxtMetrics(myManipulator.displayMetrics(selection, topLength, lengthMin,minOccur));
+            prettyPrint(selection, selectedTxtMetrics, topLength, lengthMin, minOccur);
+        }
 
     // print help
     } else {
         printHelp();
+
     } return 0;
 }
 
 void printHelp() {
 
     std::string toPrint = R"(
-    **** 
-    HELP
-    ****
+**** 
+HELP
+****
 
-    This program is used to index the content of a (large) input text, and generate some metrics about it. There are 3 user modes that can be accessed from the command line:
-    
-    1. An interactive processing mode:
-    This mode allows you to select a specific text to process from a list (sourceList.txt), it will ask you what you want to display during the course of the program,
-    will save the results and terminate. 
-    
-    You can launch this mode with: bstIndexing -p --i
+This program is used to index the content of a (large) input text, and generate some metrics about it. There are 3 user modes that can be accessed from the command line:
 
-    2. An automatic processing mode:
-    This mode will sequentially select the elements from sourceList.txt, run the proper processing, will save the results and terminate. 
-    You can launch this mode with: bstIndexing -p --a
+1. An interactive processing mode:
+This mode allows you to select a specific text to process from a list (sourceList.txt), it will ask you what you want to display during the course of the program,
+will save the results and terminate. 
 
-    3. An interactive exploration mode: 
-    This will allow you to "load" the results of a previous indexing sequence and:
-        1. get metrics about this text.
-        2. look for a specific term in the text, get the number of occurrences anf being proposed to display these occurrences in their context.
+You can launch this mode with: bstIndexing -p --i
 
-    Of course you will first need to process at least one text before being able to use this mode.
-    You can access this mode with: bstIndexing -u
+2. An automatic processing mode:
+This mode will sequentially select the elements from sourceList.txt, run the proper processing, will save the results and terminate. 
+You can launch this mode with: bstIndexing -p --a
+
+3. An interactive exploration mode: 
+This will allow you to "load" the results of a previous indexing sequence and:
+    1. get metrics about this text.
+    2. look for a specific term in the text, get the number of occurrences anf being proposed to display these occurrences in their context.
+
+Of course you will first need to process at least one text before being able to use this mode.
+You can access this mode with: bstIndexing -u
     )";
 
     std::cout << toPrint;
